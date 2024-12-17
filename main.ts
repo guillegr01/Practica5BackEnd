@@ -1,5 +1,10 @@
 import { MongoClient } from "mongodb";
+import { ApolloServer } from "npm:@apollo/server"
+import { startStandaloneServer } from "npm:@apollo/server/standalone"
 import { UserModel, PostModel, CommentModel } from "./types.ts";
+import { schema } from "./schema.ts";
+import { resolvers } from "./resolvers.ts";
+//import { utils } from "./utils.ts";
 
 const MONGO_URL = Deno.env.get("MONGO_URL");
 
@@ -16,3 +21,8 @@ const mongoDB = mongoClient.db("BBDD_P5");
 const UserCollection = mongoDB.collection<UserModel>("users");
 const PostCollection = mongoDB.collection<PostModel>("post");
 const CommentCollection = mongoDB.collection<CommentModel>("comment");
+
+const server = new ApolloServer({
+  typeDefs: schema,
+  resolvers: resolvers
+});
