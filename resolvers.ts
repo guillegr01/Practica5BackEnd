@@ -1,6 +1,7 @@
 import { Collection, ObjectId } from "mongodb";
 import { CommentModel, PostModel, User, UserModel } from "./types.ts";
 import { fromModelToUser } from "./utils.ts";
+import { GraphQLError } from "graphql";
 
 export const resolvers = {
 
@@ -25,6 +26,32 @@ export const resolvers = {
 
             if(deletedCount===0) return false;
             else return true;
+        }, 
+        createUser: async (_root:unknown, args:{name:string,email:string}, context: {uc:Collection<UserModel>,pc:Collection<PostModel>,cc:Collection<CommentModel>}): Promise<User> => {
+            const emailexists = await context.uc.findOne({email: args.email});
+            if(emailexists) {
+                throw new GraphQLError("email not valid, already in the DDBB");
+            }
+
+            const { insertedId } = await context.uc.insertOne({
+                name: args.name,
+                email: args.email,
+                posts: [],
+                comments: [],
+                likedPosts: []
+            });
+
+            const newUserModel = {
+                _id: insertedId,
+                name: args.name,
+                email: args.email,
+                posts: [],
+                comments: [],
+                likedPosts: []
+            }
+
+            return fromModelToUser(newUserModel, context.pc, context.cc);
+
         }
     }
 }

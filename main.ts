@@ -28,6 +28,6 @@ const server = new ApolloServer({
 
 const { url } = await startStandaloneServer(server, {
   context: async () => ({uc:UserCollection, pc:PostCollection, cc:CommentCollection})
-})
+});
 
 console.log(`🚀 Server runnig on: ${url}`);
