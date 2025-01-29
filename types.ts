@@ -1,8 +1,31 @@
 import { ObjectId, OptionalId } from "mongodb";
 
+export type User = {
+    id: string,
+    name: string,
+    email: string,
+    posts: string[],
+    comments: string[],
+    likedPosts: string[]
+}
+
+export type Post = {
+    id: string,
+    content: string,
+    author_id: string,
+    comments: string[],
+    likes: string[]
+}
+
+export type Comment = {
+    id: string,
+    text: string,
+    author_id: string,
+    post_id: string
+}
+
 export type UserModel = OptionalId<{
     name: string,
-    password: string,
     email: string,
     posts: ObjectId[],
     comments: ObjectId[],
@@ -11,38 +34,13 @@ export type UserModel = OptionalId<{
 
 export type PostModel = OptionalId<{
     content: string,
-    author: ObjectId,
+    author_id: ObjectId,
     comments: ObjectId[],
     likes: ObjectId[]
 }>;
 
 export type CommentModel = OptionalId<{
     text: string,
-    author: ObjectId,
-    post: ObjectId
+    author_id: ObjectId,
+    post_id: ObjectId
 }>;
-
-export type User = {
-    id: string,
-    name: string,
-    password: string,
-    email: string,
-    posts: Post[],
-    comments: Comment[],
-    likedPosts: Post[]
-};
-
-export type Post = {
-    id: string,
-    content: string,
-    author: User,
-    comments: Comment[],
-    likes: User[]
-};
-
-export type Comment = {
-    id: string,
-    text: string,
-    author: User,
-    post: Post
-};
