@@ -1,6 +1,5 @@
 import { Collection, ObjectId } from "mongodb";
 import { CommentModel, PostModel, User, UserModel } from "./types.ts";
-import { GraphQLError } from "graphql";
 import { fromModelToUser } from "./utils.ts";
 
 export const resolvers = {

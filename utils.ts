@@ -16,7 +16,7 @@ export const fromModelToUser = async (um:UserModel, pc: Collection<PostModel>, c
     }
 }
 
-export const fromModelToPost = async (pm:PostModel, uc:Collection<UserModel>, pc:Collection<PostModel>, cc: Collection<CommentModel>): Promise<Post> => {
+export const fromModelToPost = async (pm:PostModel, uc:Collection<UserModel>, cc: Collection<CommentModel>): Promise<Post> => {
 
     const userDb = await uc.findOne({_id: pm.author_id});
     const likesDb = await uc.find({_id: {$in: pm.likes}}).toArray();
